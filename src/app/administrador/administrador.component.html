@@ -1,5 +1,59 @@
-<app-header>
-</app-header>
+<app-header></app-header>
+
 <div class="main-content">
-    <h1>Bienvenido a la página de administracion</h1>
+    <div class="custom-card">
+        <div class="card">
+            <div class="card-body">
+                BIENVENIDO AL PANEL DE ADMINISTRACIÓN
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="custom-cardd">
+        <div class="cardd">
+            <div class="cardd-body">
+                <div class="container mt-5">
+                    <button type="button" class="btn custom-add-user-btn" (click)="openModal(content)">AGREGAR NUEVO USUARIO</button>
+
+                    <ng-template #content let-modal>
+                        <div class="modal custom-modal">
+                            <div class="modal-content custom-modal-content">
+                                <div class="modal-header custom-modal-header">
+                                    <h1 class="modal-title fs-5 custom-modal-title" id="exampleModalLabel">Nuevo usuario</h1>
+                                </div>
+                                <div class="modal-body custom-modal-body" style="padding-right: 35px;">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="employee-number" class="col-form-label">No. Empleado:</label>
+                                            <input type="text" class="form-control custom-form-control" id="employee-number">
+                                        </div>
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="role" class="col-form-label">Rol:</label>
+                                            <input type="text" class="form-control custom-form-control" id="role">
+                                        </div>
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="email" class="col-form-label">Correo:</label>
+                                            <input type="email" class="form-control custom-form-control" id="email">
+                                        </div>
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="password" class="col-form-label">Contraseña:</label>
+                                            <input type="password" class="form-control custom-form-control" id="password">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer custom-modal-footer">
+                                    <button type="button" class="btn custom-btn-secondary" (click)="modal.dismiss()">Cerrar</button>
+                                    <button type="button" class="btn custom-btn-primary" (click)="sendMessage(); modal.dismiss()">Agregar usuario</button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
