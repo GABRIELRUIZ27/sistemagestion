@@ -4,7 +4,7 @@
     <div class="custom-card">
         <div class="card">
             <div class="card-body">
-                BIENVENIDO AL PANEL DE ADMINISTRACIÓN
+                <h3>BIENVENIDO AL PANEL DE ADMINISTRACIÓN</h3>
             </div>
         </div>
     </div>
@@ -14,15 +14,14 @@
             <div class="cardd-body">
                 <div class="container mt-5">
                     <button type="button" class="btn custom-add-user-btn custom-add-user-btn-icon" (click)="openModal(content)">
-                    <span>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
-                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
-                      </svg>
-                    </span>
-                    AGREGAR USUARIO
-                  </button>
-
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                      <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+                    </svg>
+                  </span>
+                  AGREGAR USUARIO
+                </button>
 
                     <ng-template #content let-modal>
                         <div class="modal custom-modal">
@@ -31,56 +30,91 @@
                                     <h1 class="modal-title fs-5 custom-modal-title" id="exampleModalLabel">Nuevo usuario</h1>
                                 </div>
                                 <div class="modal-body custom-modal-body" style="padding-right: 35px;">
-                                    <form>
+                                    <form [formGroup]="formulario">
+                                        <!-- Campo de rol -->
                                         <div class="mb-3">
-                                            <label for="employee-number" class="col-form-label">No. Empleado:</label>
-                                            <input type="text" class="form-control custom-form-control" id="employee-number">
+                                            <label for="role" class="col-form-label">Rol: <span class="custom-required-field">*</span></label>
+                                            <select class="form-select custom-form-control" id="role" formControlName="role" style="width: 645px;">
+                                              <option value="usuario">Usuario</option>
+                                              <option value="candidato">Candidato</option>
+                                              <option value="administrador">Administrador</option>
+                                            </select>
                                         </div>
                                         <br>
+                                        <!-- Campo de correo electrónico -->
                                         <div class="mb-3">
-                                            <label for="role" class="col-form-label">Rol:</label>
-                                            <input type="text" class="form-control custom-form-control" id="role">
+                                            <label for="email" class="col-form-label">Correo: <span class="custom-required-field">*</span></label>
+                                            <input type="email" class="form-control custom-form-control" id="email" formControlName="email">
+                                            <div *ngIf="formulario.get('email')?.invalid && (formulario.get('email')?.dirty || formulario.get('email')?.touched)" class="custom-invalid-feedback">
+                                                Por favor, ingrese un correo electrónico válido.
+                                            </div>
                                         </div>
                                         <br>
+                                        <!-- Campo de contraseña -->
                                         <div class="mb-3">
-                                            <label for="email" class="col-form-label">Correo:</label>
-                                            <input type="email" class="form-control custom-form-control" id="email">
+                                            <label for="password" class="col-form-label" (click)="mostrarMensajeAdvertencia()">Contraseña: <span class="custom-required-field">*</span></label>
+                                            <div class="input-group">
+                                                <input type="{{ mostrarContrasena ? 'text' : 'password' }}" class="form-control custom-form-control" id="password" formControlName="password" (focus)="mostrarMensajeAdvertencia()" (blur)="ocultarMensajeAdvertencia()">
+                                            </div>
                                         </div>
-                                        <br>
-                                        <div class="mb-3">
-                                            <label for="password" class="col-form-label">Contraseña:</label>
-                                            <input type="password" class="form-control custom-form-control" id="password">
+
+                                        <!-- Mensaje de advertencia de contraseña inválida -->
+                                        <div *ngIf="formulario.get('password')?.invalid && (formulario.get('password')?.dirty || formulario.get('password')?.touched)" class="custom-invalid-feedback">
+                                            Por favor, ingrese una contraseña válida.
+                                        </div>
+
+                                        <!-- Mensaje de los criterios de la contraseña -->
+                                        <div *ngIf="mostrarAdvertenciaContrasena" class="custom-password-criteria">
+                                            La contraseña debe contener al menos una mayúscula, un carácter especial y un mínimo de ocho caracteres.
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer custom-modal-footer">
-                                    <button type="button" class="btn custom-btn-secondary" (click)="modal.dismiss()">Cerrar</button>
-                                    <button type="button" class="btn custom-btn-primary" (click)="sendMessage(); modal.dismiss()">Agregar usuario</button>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <!-- Mensaje de campos obligatorios -->
+                                                <div class="custom-required-message text-end">* Campos obligatorios</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <!-- Botón de Cerrar -->
+                                                <button type="button" class="btn custom-btn-secondary" (click)="modal.dismiss()">Cerrar</button>
+                                                <!-- Botón para limpiar información -->
+                                                <button type="button" class="btn custom-btn-limpiar" (click)="limpiarFormulario()">Limpiar</button>
+                                                <!-- Botón de Agregar Usuario -->
+                                                <button type="button" class="btn custom-btn-primary" (click)="sendMessage(); modal.dismiss()">Agregar usuario</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </ng-template>
                 </div>
+
                 <br>
                 <div class="container">
                     <div class="row">
                         <div class="col">
-                            <h2>Lista de Empleados</h2>
+                            <h2>LISTA DE USUARIOS</h2>
+                            <br>
                             <table class="table table-success table-striped blue-table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">No. Empleado</th>
-                                        <th scope="col">Área</th>
                                         <th scope="col">Rol</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Correo</th>
                                         <th scope="col">Estatus</th>
                                         <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let empleado of empleados">
-                                        <td style="text-align: center;">{{ empleado.NoEmpleado }}</td>
-                                        <td style="text-align: center;">{{ empleado.Area }}</td>
                                         <td style="text-align: center;">{{ empleado.Rol }}</td>
+                                        <td style="text-align: center;">{{ empleado.Nombre }}</td>
+                                        <td style="text-align: center;">{{ empleado.Correo }}</td>
                                         <td [ngClass]="{'text-success': empleado.Estatus === 'Activo', 'text-danger': empleado.Estatus === 'Inactivo'}" style="text-align: center;">{{ empleado.Estatus }}</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center my-auto" style="text-align: center;">

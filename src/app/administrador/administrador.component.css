@@ -76,7 +76,7 @@
 }
 
 .custom-modal-header {
-    background-color: #007bff;
+    background-color: #dd2490;
     color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -113,9 +113,8 @@
 }
 
 .custom-btn-primary {
-    background-color: #007bff;
+    background-color: #dd2490;
     color: #fff;
-    margin-left: 10px;
 }
 
 
@@ -167,7 +166,7 @@
 }
 
 .custom-btn-primary {
-    background-color: #007bff;
+    background-color: #dd2490;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -182,7 +181,7 @@
 }
 
 .custom-btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #d3027c;
 }
 
 
@@ -203,32 +202,111 @@
 
 .blue-table {
     width: 100%;
-    background-color: rgb(184, 184, 241);
-    border: 2px solid black;
-    /* Agregamos un borde negro */
+    background-color: transparent;
+    border: 1px solid black;
+    /* Agregamos un borde negro delgado */
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: top;
 }
 
 
-/* Estilo para las filas de la tabla */
+/* Estilo para los títulos de la tabla */
+
+.blue-table th {
+    background-color: #dd2490;
+    /* Fondo de color #dd2490 para los títulos */
+    color: white;
+    /* Color de texto blanco para los títulos */
+    padding: 8px;
+    /* Añadimos un espacio interno para que se vea mejor */
+}
+
+
+/* Estilo para las celdas de la tabla */
+
+.blue-table th,
+.blue-table td {
+    text-align: center;
+    border: 1px solid black;
+    /* Agregamos bordes negros delgados a las celdas */
+    padding: 8px;
+    /* Añadimos un espacio interno para que se vea mejor */
+}
+
+
+/* Estilo para las filas pares de la tabla */
 
 .blue-table tbody tr:nth-child(even) {
-    background-color: #ffff;
+    background-color: rgba(0, 0, 0, 0.05);
 }
+
+
+/* Estilo para las filas impares de la tabla */
 
 .blue-table tbody tr:nth-child(odd) {
-    background-color: #ffff;
+    background-color: transparent;
 }
 
 
-/* Estilo para el texto "Activo" */
+/* Estilo para el texto de estatus Activo */
 
-.text-success {
-    color: green;
+.blue-table .text-success {
+    color: #28a745;
 }
 
 
-/* Estilo para el texto "Inactivo" */
+/* Estilo para el texto de estatus Inactivo */
 
-.text-danger {
+.blue-table .text-danger {
+    color: #dc3545;
+}
+
+
+/* (*) de color rojo formulario */
+
+.custom-required-field {
     color: red;
+}
+
+.custom-required-message {
+    text-align: left;
+    color: red;
+    margin-top: 10px;
+}
+
+.custom-invalid-feedback {
+    color: red;
+    font-weight: bold;
+}
+
+.custom-password-criteria {
+    margin-top: 5px;
+    color: #6c757d;
+    /* Color gris para los criterios de la contraseña */
+}
+
+.custom-invalid-feedback {
+    color: red;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+
+/* Estilo para el botón de limpiar */
+
+.custom-btn-limpiar {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 10px;
+}
+
+.custom-btn-limpiar:hover {
+    background-color: #5a6268;
 }
