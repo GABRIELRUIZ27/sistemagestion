@@ -70,7 +70,6 @@
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     max-width: 700px;
-    /* Ajusta este valor según tu preferencia */
     width: 90%;
     font-family: Arial, sans-serif;
 }
@@ -122,21 +121,13 @@
 
 .custom-add-user-btn {
     background-color: #28a745;
-    /* Fondo verde */
     color: #fff;
-    /* Texto blanco */
     border: none;
-    /* Sin borde */
     border-radius: 5px;
-    /* Bordes redondeados */
     padding: 10px 20px;
-    /* Espaciado interno en el botón */
     font-size: 16px;
-    /* Tamaño de fuente */
     cursor: pointer;
-    /* Cambio de cursor al pasar el mouse */
     transition: background-color 0.3s, color 0.3s;
-    /* Transición suave al cambiar los colores */
 }
 
 .custom-add-user-btn:hover {
@@ -194,7 +185,6 @@
 
 .custom-add-user-btn-icon svg {
     margin-right: 10px;
-    /* Ajusta este valor para el espacio deseado */
 }
 
 
@@ -204,7 +194,6 @@
     width: 100%;
     background-color: transparent;
     border: 1px solid black;
-    /* Agregamos un borde negro delgado */
     margin-bottom: 1rem;
     color: #212529;
     vertical-align: top;
@@ -215,23 +204,15 @@
 
 .blue-table th {
     background-color: #dd2490;
-    /* Fondo de color #dd2490 para los títulos */
     color: white;
-    /* Color de texto blanco para los títulos */
     padding: 8px;
-    /* Añadimos un espacio interno para que se vea mejor */
 }
-
-
-/* Estilo para las celdas de la tabla */
 
 .blue-table th,
 .blue-table td {
     text-align: center;
     border: 1px solid black;
-    /* Agregamos bordes negros delgados a las celdas */
     padding: 8px;
-    /* Añadimos un espacio interno para que se vea mejor */
 }
 
 
@@ -321,4 +302,9 @@
 
 .custom-valid-feedback {
     color: green;
+}
+
+h3 {
+    font-weight: bold;
+    text-transform: uppercase;
 }
