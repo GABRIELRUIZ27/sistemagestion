@@ -184,3 +184,51 @@
 .custom-btn-primary:hover {
     background-color: #0056b3;
 }
+
+
+/* Agregar espacio entre el icono y el texto */
+
+.custom-add-user-btn-icon {
+    display: flex;
+    align-items: center;
+}
+
+.custom-add-user-btn-icon svg {
+    margin-right: 10px;
+    /* Ajusta este valor para el espacio deseado */
+}
+
+
+/* Estilo para la tabla */
+
+.blue-table {
+    width: 100%;
+    background-color: rgb(184, 184, 241);
+    border: 2px solid black;
+    /* Agregamos un borde negro */
+}
+
+
+/* Estilo para las filas de la tabla */
+
+.blue-table tbody tr:nth-child(even) {
+    background-color: #ffff;
+}
+
+.blue-table tbody tr:nth-child(odd) {
+    background-color: #ffff;
+}
+
+
+/* Estilo para el texto "Activo" */
+
+.text-success {
+    color: green;
+}
+
+
+/* Estilo para el texto "Inactivo" */
+
+.text-danger {
+    color: red;
+}

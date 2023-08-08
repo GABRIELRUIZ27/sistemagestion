@@ -8,6 +8,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { AdministradorComponent } from './administrador/administrador.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AdministradorComponent } from './administrador/administrador.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule // Agrega esto a tus imports
+    NgbModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
