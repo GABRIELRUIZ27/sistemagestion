@@ -310,3 +310,15 @@
 .custom-btn-limpiar:hover {
     background-color: #5a6268;
 }
+
+.valid-password {
+    color: green;
+}
+
+.invalid-password {
+    color: red;
+}
+
+.custom-valid-feedback {
+    color: green;
+}
