@@ -8,20 +8,9 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent {
-  empleados = [
-    { Rol: 'Usuario', nombre: 'Juan Carlos Martínez García', Correo: 'correo@ejemplo.com', Estatus: 'Activo' },
-    { Rol: 'Candidato', nombre: 'Ana María Rodríguez López', Correo: 'correo@ejemplo.com',  Estatus: 'Inactivo' },
-    { Rol: 'Candidato', nombre: 'Carlos Eduardo Pérez Sánchez', Correo: 'correo@ejemplo.com', Estatus: 'Activo' },
-    { Rol: 'Administrador', nombre: 'María Fernanda González Ramírez', Correo: 'correo@ejemplo.com', Estatus: 'Inactivo' },
-    { Rol: 'Usuario', nombre: 'Alejandro Torres Jiménez', Correo: 'correo@ejemplo.com', Estatus: 'Activo' },
-    { Rol: 'Usuario', nombre: 'Laura Isabel Castro Vargas', Correo: 'correo@ejemplo.com', Estatus: 'Inactivo' },
-    { Rol: 'Candidato', nombre: 'Javier Antonio Mendoza Cruz', Correo: 'correo@ejemplo.com', Estatus: 'Activo' },
-    { Rol: 'Usuario', nombre: 'Emanuel Romero Aguilar', Correo: 'correo@ejemplo.com', Estatus: 'Inactivo' },
-  ];
+  empleados: any[] = [];
 
-  nuevoUsuario: any = {
-    nombre: ''
-  };
+  nuevoUsuario: any = {};
 
   formulario: FormGroup;
   mostrarAdvertenciaContrasena: boolean = false;
@@ -31,7 +20,7 @@ export class AdministradorComponent {
   constructor(private modalService: NgbModal, private fb: FormBuilder) {
     this.formulario = this.fb.group({
       role: [''],
-      nombre: ['', Validators.required], // Agregar el campo del nombre
+      nombre: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.validarContrasena]],
     });
@@ -48,12 +37,10 @@ export class AdministradorComponent {
   }
 
   sendMessage(): void {
-    // Agrega aquí la lógica para enviar el mensaje
     console.log('Mensaje enviado');
   }
 
   validarContrasena(control: any) {
-    // Lógica para validar la contraseña
     const password = control.value;
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
 
@@ -73,9 +60,9 @@ export class AdministradorComponent {
   }
 
   limpiarFormulario(): void {
-    this.formulario.reset(); // Limpia los campos del formulario
-    this.formulario.get('role')?.setValue(null); // Reinicia la selección de rol a null
-    this.mostrarAdvertenciaContrasena = false; // Oculta el mensaje de advertencia de contraseña
+    this.formulario.reset();
+    this.formulario.get('role')?.setValue(null);
+    this.mostrarAdvertenciaContrasena = false;
   }
 
   mostrarContrasena: boolean = false;
@@ -90,7 +77,6 @@ validarCriteriosContrasena(password: string) {
     if (passwordControl) {
         passwordControl.setValue(password);
 
-        // Lógica para verificar si se cumplen los requisitos y actualizar mostrarAdvertenciaContrasena
         this.mostrarAdvertenciaContrasena = passwordControl.dirty && !passwordControl.valid;
     }
 }
@@ -125,7 +111,7 @@ validarFormulario() {
 }
 
 sendMessageAndClose(modal: any): void {
-    this.validarFormulario(); // Llamar a la función de validación
+    this.validarFormulario();
     if (!this.mostrarAvisoGeneral) {
         this.sendMessage();
         this.closeModal(modal);
@@ -135,9 +121,16 @@ sendMessageAndClose(modal: any): void {
 
 agregarUsuario() {
   if (this.formulario.valid) {
-    this.nuevoUsuario.Estatus = 'Activo'; // Establece el estatus en 'Activo'
-    this.empleados.push(this.nuevoUsuario);
-    this.nuevoUsuario = {}; // Limpia el objeto para futuros usos
+    const nuevoUsuario = {
+      Rol: this.formulario.get('role')?.value,
+      nombre: this.formulario.get('nombre')?.value,
+      Correo: this.formulario.get('email')?.value,
+      Estatus: 'Activo'
+    };
+
+    this.empleados.push(nuevoUsuario);
+    this.formulario.reset();
+    this.nuevoUsuario = {};
   }
 }
 
@@ -145,15 +138,17 @@ agregarUsuarioYCerrarModal() {
   if (this.formulario.valid) {
     const nuevoUsuario = {
       Rol: this.formulario.get('role')?.value,
-      nombre: this.nuevoUsuario.nombre, // Asegúrate de tener el valor del nombre
+      nombre: this.formulario.get('nombre')?.value,
       Correo: this.formulario.get('email')?.value,
-      Estatus: 'Activo' // Puedes establecer un valor predeterminado si lo deseas
+      Estatus: 'Activo'
     };
 
     this.empleados.push(nuevoUsuario);
+    this.formulario.reset();
+    this.nuevoUsuario = {};
 
     if (this.modalRef) {
-      this.modalRef.close(); // Cerrar el modal usando la referencia
+      this.modalRef.close();
     }
   } else {
     this.mostrarAvisoGeneral = true;
