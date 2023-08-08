@@ -17,6 +17,7 @@ export class AdministradorComponent {
   campoContrasenaSeleccionado: boolean = false;
   modalRef: NgbModalRef | null = null;
 
+
   constructor(private modalService: NgbModal, private fb: FormBuilder) {
     this.formulario = this.fb.group({
       role: [''],
@@ -26,6 +27,12 @@ export class AdministradorComponent {
     });
   }
 
+  estatusSeleccionado: string = ''; // Agrega esta propiedad
+
+  cambiarEstatus(nuevoEstatus: string) {
+    this.nuevoUsuario.Estatus = nuevoEstatus;
+    console.log("Estatus actualizado:", this.nuevoUsuario.Estatus);
+  }
 
   openModal(content: any): void {
     this.modalRef = this.modalService.open(content);
@@ -125,12 +132,13 @@ agregarUsuario() {
       Rol: this.formulario.get('role')?.value,
       nombre: this.formulario.get('nombre')?.value,
       Correo: this.formulario.get('email')?.value,
-      Estatus: 'Activo'
+      Estatus: this.nuevoUsuario.Estatus
     };
 
     this.empleados.push(nuevoUsuario);
     this.formulario.reset();
     this.nuevoUsuario = {};
+    this.nuevoUsuario.Estatus = ''; // Reinicia el estatus seleccionado
   }
 }
 
@@ -140,7 +148,7 @@ agregarUsuarioYCerrarModal() {
       Rol: this.formulario.get('role')?.value,
       nombre: this.formulario.get('nombre')?.value,
       Correo: this.formulario.get('email')?.value,
-      Estatus: 'Activo'
+      Estatus: this.nuevoUsuario.Estatus // Usar el estatus seleccionado
     };
 
     this.empleados.push(nuevoUsuario);

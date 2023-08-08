@@ -94,6 +94,20 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                        <!-- Campo de estatus -->
+                                        <div class="mb-3">
+                                            <label for="estatus" class="col-form-label">Estatus: <span class="custom-required-field">*</span></label>
+                                            <div class="d-flex align-items-center">
+                                                <button class="btn btn-success me-2" (click)="cambiarEstatus('Activo')">Activo</button>
+                                                <button class="btn btn-danger" (click)="cambiarEstatus('Inactivo')">Inactivo</button>
+                                            </div>
+                                        </div>
+                                        <!-- Texto con el estatus seleccionado -->
+                                        <div *ngIf="nuevoUsuario.Estatus" class="mt-2">
+                                            <span [ngClass]="{'text-success': nuevoUsuario.Estatus === 'Activo', 'text-danger': nuevoUsuario.Estatus === 'Inactivo'}">
+                                             Estatus seleccionado: {{ nuevoUsuario.Estatus }}
+                                            </span>
+                                        </div>
 
 
                                     </form>
