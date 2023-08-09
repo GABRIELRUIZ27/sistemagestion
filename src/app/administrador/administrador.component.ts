@@ -18,7 +18,7 @@ export class AdministradorComponent {
   modalRef: NgbModalRef | null = null;
   todosLosEmpleados: any[] = [];
   valorBusqueda: string = '';
-
+  filtroTexto: string = '';
 
   constructor(private modalService: NgbModal, private fb: FormBuilder) {
     this.formulario = this.fb.group({
@@ -180,6 +180,15 @@ buscarCandidato(event: any) {
           );
       });
   }
+}
+
+borrarFiltro() {
+  this.filtroTexto = ''; // Borra el contenido del filtro
+  this.mostrarTodosLosValores(); // Muestra todos los valores nuevamente
+}
+
+mostrarTodosLosValores() {
+  this.empleados = this.todosLosEmpleados.slice(); // Copia los valores de todosLosEmpleados al arreglo empleados
 }
 
 
