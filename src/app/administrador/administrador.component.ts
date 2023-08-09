@@ -16,6 +16,8 @@ export class AdministradorComponent {
   mostrarAdvertenciaContrasena: boolean = false;
   campoContrasenaSeleccionado: boolean = false;
   modalRef: NgbModalRef | null = null;
+  todosLosEmpleados: any[] = [];
+  valorBusqueda: string = '';
 
 
   constructor(private modalService: NgbModal, private fb: FormBuilder) {
@@ -148,10 +150,11 @@ agregarUsuarioYCerrarModal() {
       Rol: this.formulario.get('role')?.value,
       nombre: this.formulario.get('nombre')?.value,
       Correo: this.formulario.get('email')?.value,
-      Estatus: this.nuevoUsuario.Estatus // Usar el estatus seleccionado
+      Estatus: this.nuevoUsuario.Estatus
     };
 
     this.empleados.push(nuevoUsuario);
+    this.todosLosEmpleados.push(nuevoUsuario); // Actualizar la lista completa de empleados
     this.formulario.reset();
     this.nuevoUsuario = {};
 
@@ -160,6 +163,22 @@ agregarUsuarioYCerrarModal() {
     }
   } else {
     this.mostrarAvisoGeneral = true;
+  }
+}
+
+
+buscarCandidato(event: any) {
+  const valor = event.target.value;
+  if (valor.trim() === '') {
+      this.empleados = this.todosLosEmpleados; // Mostrar todos los empleados cuando no hay valor de búsqueda
+  } else {
+      const filtro = valor.toLowerCase();
+      this.empleados = this.todosLosEmpleados.filter(empleado => {
+          return (
+              empleado.nombre.toLowerCase().includes(filtro) || // Filtrar por nombre
+              empleado.Correo.toLowerCase().includes(filtro) // Filtrar por correo electrónico
+          );
+      });
   }
 }
 

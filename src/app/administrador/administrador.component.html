@@ -49,7 +49,6 @@
                                         </div>
                                         <br>
                                         <!-- Campo del nombre -->
-                                        <!-- Campo de nombre -->
                                         <div class="mb-3">
                                             <label for="nombre" class="col-form-label">Nombre: <span class="custom-required-field">*</span></label>
                                             <input type="text" class="form-control custom-form-control" id="nombre" formControlName="nombre">
@@ -136,63 +135,69 @@
                     </ng-template>
 
                     <br>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <h3>LISTA DE USUARIOS</h3>
-                                <br>
-                                <table class="table table-success table-striped blue-table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Rol</th>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Correo</th>
-                                            <th scope="col">Estatus</th>
-                                            <th scope="col">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let empleado of empleados">
-                                            <td style="text-align: center;">{{ empleado.Rol }}</td>
-                                            <td style="text-align: center;">{{ empleado.nombre }}</td>
-                                            <td style="text-align: center;">{{ empleado.Correo }}</td>
-                                            <td [ngClass]="{'text-success': empleado.Estatus === 'Activo', 'text-danger': empleado.Estatus === 'Inactivo'}" style="text-align: center;">{{ empleado.Estatus }}</td>
-                                            <td class="text-center">
-                                                <div class="d-flex justify-content-center my-auto" style="text-align: center;">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-pencil-fill mr-2" viewBox="0 0 16 16" (click)="openModal(content)">
-                                                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                              </svg>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-eraser-fill" viewBox="0 0 16 16">
-                                                  <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
-                                              </svg>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Columna para el título de la tabla -->
+                            <h2>Lista de Empleados</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="nombreUsuario" type="text" class="form-control form-control-sm custom-filter-input" placeholder="INGRESA EL VALOR QUE QUIERAS BUSCAR" aria-label="Aquí puedes buscar por Nombre o Correo Electronico" aria-describedby="buscar-btn" (input)="buscarCandidato($event)"
+                                title="Ingresar el nombre o correo electronico  que quieras consultar">
                         </div>
                     </div>
-
-                    <ng-template #content let-modal>
-                        <div class="modal-header">
-                            <h4 class="modal-title">Editar Empleado</h4>
-                            <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Contenido del formulario de edición aquí -->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" (click)="closeModal(modal)">Cerrar</button>
-                            <button type="button" class="btn btn-primary" (click)="sendMessageAndClose(modal)">Guardar</button>
-                        </div>
-                    </ng-template>
+                    <br>
+                    <!-- Tabla de empleados -->
+                    <table class="blue-table">
+                        <thead>
+                            <tr>
+                                <th>Rol</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Estatus</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let empleado of empleados; let i = index">
+                                <td>{{ empleado.Rol }}</td>
+                                <td>{{ empleado.nombre }}</td>
+                                <td>{{ empleado.Correo }}</td>
+                                <td>{{ empleado.Estatus }}</td>
+                                <td>
+                                    <!-- Botones de edición y eliminación -->
+                                    <div class="d-flex justify-content-center my-auto" style="text-align: center;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-pencil-fill mr-2" viewBox="0 0 16 16" (click)="openModal(content)">
+                                                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                              </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                  <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
+                                              </svg>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
         </div>
+
+
+        <ng-template #content let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">Editar Empleado</h4>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+            </div>
+            <div class="modal-body">
+                <!-- Contenido del formulario de edición aquí -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal(modal)">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="sendMessageAndClose(modal)">Guardar</button>
+            </div>
+        </ng-template>
+
     </div>
+</div>
