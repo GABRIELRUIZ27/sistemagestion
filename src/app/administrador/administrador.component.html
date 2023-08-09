@@ -40,8 +40,8 @@
                                     <form [formGroup]="formulario">
                                         <!-- Campo de rol -->
                                         <div class="mb-3">
-                                            <label for="role" class="col-form-label">Rol: <span class="custom-required-field">*</span></label>
-                                            <select class="form-select custom-form-control" id="role" formControlName="role" style="width: 645px;">
+                                            <label for="Rol" class="col-form-label">Rol: <span class="custom-required-field">*</span></label>
+                                            <select class="form-select custom-form-control" id="Rol" formControlName="Rol" style="width: 645px;">
                                               <option value="usuario">Usuario</option>
                                               <option value="candidato">Candidato</option>
                                               <option value="administrador">Administrador</option>
@@ -57,15 +57,15 @@
                                         <br>
                                         <!-- Campo de correo electrónico -->
                                         <div class="mb-3">
-                                            <label for="email" class="col-form-label">Correo: <span class="custom-required-field">*</span></label>
-                                            <input type="email" class="form-control custom-form-control" id="email" formControlName="email">
+                                            <label for="Correo" class="col-form-label">Correo: <span class="custom-required-field">*</span></label>
+                                            <input type="Correo" class="form-control custom-form-control" id="Correo" formControlName="Correo">
                                             <!-- Mensaje para correo electrónico válido -->
-                                            <div *ngIf="formulario.get('email')?.valid && (formulario.get('email')?.dirty || formulario.get('email')?.touched)" class="custom-valid-feedback">
+                                            <div *ngIf="formulario.get('Correo')?.valid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-valid-feedback">
                                                 Correo electrónico válido.
                                             </div>
 
                                             <!-- Mensaje para correo electrónico inválido -->
-                                            <div *ngIf="formulario.get('email')?.invalid && (formulario.get('email')?.dirty || formulario.get('email')?.touched)" class="custom-invalid-feedback">
+                                            <div *ngIf="formulario.get('Correo')?.invalid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-invalid-feedback">
                                                 Correo electrónico inválido.
                                             </div>
 
@@ -75,7 +75,7 @@
                                         <div class="mb-3">
                                             <label for="password" class="col-form-label" (click)="mostrarMensajeAdvertencia()">Contraseña: <span class="custom-required-field">*</span></label>
                                             <div class="input-group">
-                                                <input type="{{ mostrarContrasena ? 'text' : 'password' }}" class="form-control custom-form-control" id="password" formControlName="password" [(ngModel)]="passwordValue" (focus)="campoContrasenaSeleccionado = true" (blur)="campoContrasenaSeleccionado = false">
+                                                <input type="{{ mostrarContrasena ? 'text' : 'password' }}" class="form-control custom-form-control" id="password" formControlName="password" (focus)="campoContrasenaSeleccionado = true" (blur)="campoContrasenaSeleccionado = false">
                                             </div>
                                         </div>
 
@@ -95,7 +95,7 @@
                                         </div>
                                         <!-- Campo de estatus -->
                                         <div class="mb-3">
-                                            <label for="estatus" class="col-form-label">Estatus: <span class="custom-required-field">*</span></label>
+                                            <label for="Estatus" class="col-form-label">Estatus: <span class="custom-required-field">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <button class="btn btn-success me-2" (click)="cambiarEstatus('Activo')">Activo</button>
                                                 <button class="btn btn-danger" (click)="cambiarEstatus('Inactivo')">Inactivo</button>
@@ -107,10 +107,9 @@
                                              Estatus seleccionado: {{ nuevoUsuario.Estatus }}
                                             </span>
                                         </div>
-
-
                                     </form>
                                 </div>
+
                                 <div class="modal-footer custom-modal-footer">
                                     <div class="container-fluid">
                                         <div class="row">
@@ -142,8 +141,8 @@
                         </div>
                         <div class="col-md-6 d-flex align-items-center">
                             <div class="input-group">
-                                <input id="nombreUsuario" type="text" class="form-control form-control-sm custom-filter-input" placeholder="INGRESA EL VALOR QUE QUIERAS BUSCAR" aria-label="Aquí puedes buscar por Nombre o Correo Electronico" aria-describedby="buscar-btn" [(ngModel)]="filtroTexto"
-                                    (input)="buscarCandidato($event)" style="width: 518px;">
+                                <input id="nombreUsuario" type="text" class="form-control form-control-sm custom-filter-input" placeholder="INGRESA EL VALOR QUE QUIERAS BUSCAR" aria-label="Aquí puedes buscar por Nombre o Correo Electronico" aria-describedby="buscar-btn" (input)="buscarCandidato($event)"
+                                    style="width: 518px;">
                                 <button class="btn btn-outline-secondary" type="button" (click)="borrarFiltro()">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
                                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -171,17 +170,18 @@
                                 <td>{{ empleado.Rol }}</td>
                                 <td>{{ empleado.nombre }}</td>
                                 <td>{{ empleado.Correo }}</td>
-                                <td>{{ empleado.Estatus }}</td>
+                                <td [ngClass]="{'text-success': empleado.Estatus === 'Activo', 'text-danger': empleado.Estatus === 'Inactivo'}">
+                                    {{ empleado.Estatus }}
+                                </td>
                                 <td>
-                                    <!-- Botones de edición y eliminación -->
-                                    <div class="d-flex justify-content-center my-auto" style="text-align: center;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-pencil-fill mr-2" viewBox="0 0 16 16" (click)="openModal(content)">
-                                                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                              </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-eraser-fill" viewBox="0 0 16 16">
-                                                  <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
-                                              </svg>
-                                    </div>
+                                    <!-- Icono de edición -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="blue" class="bi bi-pencil-fill mr-3" viewBox="0 0 16 16" (click)="editarUsuarioModal(editModal, i)" style="padding-right: 10px; width: 30px;">
+                                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                  </svg>
+                                    <!-- Icono de eliminación -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-eraser-fill" viewBox="0 0 16 16" (click)="eliminarUsuario(i)">
+                                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
+                                  </svg>
                                 </td>
                             </tr>
                         </tbody>
@@ -191,22 +191,100 @@
             </div>
         </div>
 
+        <ng-template #editModal let-modal>
+            <div class="modal custom-modal">
+                <div class="modal-content custom-modal-content">
+                    <div class="modal-header custom-modal-header">
+                        <h1 class="modal-title fs-5 custom-modal-title" id="exampleModalLabel">Actualizar datos</h1>
+                    </div>
+                    <div class="modal-body custom-modal-body" style="padding-right: 35px;">
+                        <!-- Aviso de campo faltante o incorrecto -->
+                        <div *ngIf="mostrarAvisoGeneral" class="custom-invalid-feedback">
+                            Por favor, complete todos los campos obligatorios y corrija los errores.
+                        </div>
 
-        <ng-template #content let-modal>
-            <div class="modal-header">
-                <h4 class="modal-title">Editar Empleado</h4>
-                <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-            </div>
-            <div class="modal-body">
-                <!-- Contenido del formulario de edición aquí -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeModal(modal)">Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="sendMessageAndClose(modal)">Guardar</button>
+                        <form [formGroup]="formulario">
+                            <!-- Campo de rol -->
+                            <div class="mb-3">
+                                <label for="Rol" class="col-form-label">Rol: <span class="custom-required-field">*</span></label>
+                                <select class="form-select custom-form-control" id="Rol" formControlName="Rol" style="width: 645px;">
+                              <option value="usuario">Usuario</option>
+                              <option value="candidato">Candidato</option>
+                              <option value="administrador">Administrador</option>
+                            </select>
+                            </div>
+                            <br>
+                            <!-- Campo del nombre -->
+                            <div class="mb-3">
+                                <label for="nombre" class="col-form-label">Nombre: <span class="custom-required-field">*</span></label>
+                                <input type="text" class="form-control custom-form-control" id="nombre" formControlName="nombre">
+                            </div>
+
+                            <br>
+                            <!-- Campo de correo electrónico -->
+                            <div class="mb-3">
+                                <label for="Correo" class="col-form-label">Correo: <span class="custom-required-field">*</span></label>
+                                <input type="Correo" class="form-control custom-form-control" id="Correo" formControlName="Correo">
+                                <!-- Mensaje para correo electrónico válido -->
+                                <div *ngIf="formulario.get('email')?.valid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-valid-feedback">
+                                    Correo electrónico válido.
+                                </div>
+
+                                <!-- Mensaje para correo electrónico inválido -->
+                                <div *ngIf="formulario.get('Correo')?.invalid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-invalid-feedback">
+                                    Correo electrónico inválido.
+                                </div>
+
+                            </div>
+                            <br>
+                            <!-- Campo de contraseña -->
+                            <div class="mb-3">
+                                <label for="password" class="col-form-label" (click)="mostrarMensajeAdvertencia()">Contraseña: <span class="custom-required-field">*</span></label>
+                                <div class="input-group">
+                                    <input type="{{ mostrarContrasena ? 'text' : 'password' }}" class="form-control custom-form-control" id="password" formControlName="password" (focus)="campoContrasenaSeleccionado = true" (blur)="campoContrasenaSeleccionado = false">
+                                </div>
+                            </div>
+
+                            <!-- Mensaje de los criterios de la contraseña -->
+                            <div *ngIf="campoContrasenaSeleccionado" class="custom-password-criteria">
+                                <ul>
+                                    <li [ngClass]="{'valid-password': cumpleRequisito('mayuscula'), 'invalid-password': !cumpleRequisito('mayuscula')}">
+                                        La contraseña debe contener al menos una mayúscula.
+                                    </li>
+                                    <li [ngClass]="{'valid-password': cumpleRequisito('caracterEspecial'), 'invalid-password': !cumpleRequisito('caracterEspecial')}">
+                                        Debe incluir al menos un carácter especial.
+                                    </li>
+                                    <li [ngClass]="{'valid-password': cumpleRequisito('minimoCaracteres'), 'invalid-password': !cumpleRequisito('minimoCaracteres')}">
+                                        Debe tener un mínimo de ocho caracteres.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Campo de estatus -->
+                            <div class="mb-3">
+                                <label for="Estatus" class="col-form-label">Estatus: <span class="custom-required-field">*</span></label>
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-success me-2" (click)="cambiarEstatus('Activo')">Activo</button>
+                                    <button class="btn btn-danger" (click)="cambiarEstatus('Inactivo')">Inactivo</button>
+                                </div>
+                            </div>
+                            <!-- Texto con el estatus seleccionado -->
+                            <div *ngIf="nuevoUsuario.Estatus" class="mt-2">
+                                <span [ngClass]="{'text-success': nuevoUsuario.Estatus === 'Activo', 'text-danger': nuevoUsuario.Estatus === 'Inactivo'}">
+                             Estatus seleccionado: {{ nuevoUsuario.Estatus }}
+                            </span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer custom-modal-footer">
+                        <button type="button" class="btn custom-btn-secondary" (click)="modal.dismiss()">Cerrar</button>
+                        <button type="button" class="btn custom-btn-primary" (click)="guardarCambios(modal)">Guardar Cambios</button>
+                    </div>
+                </div>
             </div>
         </ng-template>
+
 
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,13 +19,18 @@ export class AdministradorComponent {
   todosLosEmpleados: any[] = [];
   valorBusqueda: string = '';
   filtroTexto: string = '';
+  nuevoUsuarioIndex: number = -1;
+
+  @ViewChild('content') content: ElementRef | undefined;
 
   constructor(private modalService: NgbModal, private fb: FormBuilder) {
+
     this.formulario = this.fb.group({
-      role: [''],
+      Rol: ['', Validators.required],
       nombre: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, this.validarContrasena]],
+      Correo: ['', [Validators.required]],
+      password: ['', Validators.required],
+      Estatus: [''],
     });
   }
 
@@ -70,7 +75,7 @@ export class AdministradorComponent {
 
   limpiarFormulario(): void {
     this.formulario.reset();
-    this.formulario.get('role')?.setValue(null);
+    this.formulario.get('Rol')?.setValue(null);
     this.mostrarAdvertenciaContrasena = false;
   }
 
@@ -131,25 +136,24 @@ sendMessageAndClose(modal: any): void {
 agregarUsuario() {
   if (this.formulario.valid) {
     const nuevoUsuario = {
-      Rol: this.formulario.get('role')?.value,
+      Rol: this.formulario.get('Rol')?.value,
       nombre: this.formulario.get('nombre')?.value,
-      Correo: this.formulario.get('email')?.value,
+      Correo: this.formulario.get('Correo')?.value,
       Estatus: this.nuevoUsuario.Estatus
     };
 
     this.empleados.push(nuevoUsuario);
     this.formulario.reset();
     this.nuevoUsuario = {};
-    this.nuevoUsuario.Estatus = ''; // Reinicia el estatus seleccionado
   }
 }
 
 agregarUsuarioYCerrarModal() {
   if (this.formulario.valid) {
     const nuevoUsuario = {
-      Rol: this.formulario.get('role')?.value,
+      Rol: this.formulario.get('Rol')?.value,
       nombre: this.formulario.get('nombre')?.value,
-      Correo: this.formulario.get('email')?.value,
+      Correo: this.formulario.get('Correo')?.value,
       Estatus: this.nuevoUsuario.Estatus
     };
 
@@ -190,6 +194,42 @@ borrarFiltro() {
 mostrarTodosLosValores() {
   this.empleados = this.todosLosEmpleados.slice(); // Copia los valores de todosLosEmpleados al arreglo empleados
 }
+
+editarUsuario(index: number) {
+  this.nuevoUsuario = { ...this.empleados[index] };
+  this.nuevoUsuarioIndex = index;
+  this.modalRef = this.modalService.open(this.content);
+}
+
+eliminarUsuario(index: number) {
+  this.empleados.splice(index, 1);
+  this.todosLosEmpleados.splice(index, 1); // Eliminar el usuario de la lista completa
+}
+
+editarUsuarioModal(content: any, index: number) {
+  this.nuevoUsuarioIndex = index;
+  this.nuevoUsuario = { ...this.empleados[index] }; // Copia los valores del usuario a editar
+  this.modalRef = this.modalService.open(content);
+}
+
+
+guardarCambios(modal: any) {
+  if (this.formulario.valid) {
+    const valoresFormulario = this.formulario.value;
+
+    // Actualiza los valores del usuario en el arreglo empleados
+    this.empleados[this.nuevoUsuarioIndex] = {
+      ...this.empleados[this.nuevoUsuarioIndex],
+      Rol: valoresFormulario.Rol,
+      nombre: valoresFormulario.nombre,
+      Correo: valoresFormulario.Correo,
+      Estatus: this.nuevoUsuario.Estatus
+    };
+
+    modal.close();
+  }
+}
+
 
 
 }
