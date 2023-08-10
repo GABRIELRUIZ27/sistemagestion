@@ -180,9 +180,18 @@ eliminarUsuario(index: number) {
 editarUsuarioModal(content: any, index: number) {
   this.nuevoUsuarioIndex = index;
   this.nuevoUsuario = { ...this.empleados[index] }; // Copia los valores del usuario a editar
+
+  // Cargar los valores del usuario en el formulario antes de abrir el modal
+  this.formulario.setValue({
+    Rol: this.nuevoUsuario.Rol,
+    nombre: this.nuevoUsuario.nombre,
+    Correo: this.nuevoUsuario.Correo,
+    password: '', // Aquí proporciona un valor vacío o un valor por defecto para 'password'
+    Estatus: this.nuevoUsuario.Estatus // Asegúrate de que 'Estatus' esté incluido si es necesario
+  });
+
   this.modalRef = this.modalService.open(content);
 }
-
 
 guardarCambios(modal: any) {
   if (this.formulario.valid) {
