@@ -151,17 +151,18 @@ agregarUsuarioYCerrarModal() {
 buscarCandidato(event: any) {
   const valor = event.target.value;
   if (valor.trim() === '') {
-      this.empleados = this.todosLosEmpleados; // Mostrar todos los empleados cuando no hay valor de búsqueda
+    this.empleados = this.todosLosEmpleados; // Mostrar todos los empleados cuando no hay valor de búsqueda
   } else {
-      const filtro = valor.toLowerCase();
-      this.empleados = this.todosLosEmpleados.filter(empleado => {
-          return (
-              empleado.nombre.toLowerCase().includes(filtro) || // Filtrar por nombre
-              empleado.Correo.toLowerCase().includes(filtro) // Filtrar por correo electrónico
-          );
-      });
+    const filtro = valor.toLowerCase();
+    this.empleados = this.todosLosEmpleados.filter(empleado => {
+      return (
+        empleado.nombre.toLowerCase().includes(filtro) || // Filtrar por nombre
+        empleado.Correo.toLowerCase().includes(filtro) // Filtrar por correo electrónico
+      );
+    });
   }
 }
+
 
 borrarFiltro() {
   this.filtroTexto = ''; // Borra el contenido del filtro

@@ -141,7 +141,7 @@
                         </div>
                         <div class="col-md-6 d-flex align-items-center">
                             <div class="input-group">
-                                <input id="nombreUsuario" type="text" class="form-control form-control-sm custom-filter-input" placeholder="INGRESA EL VALOR QUE QUIERAS BUSCAR" aria-label="Aquí puedes buscar por Nombre o Correo Electronico" aria-describedby="buscar-btn" [(ngModel)]="filtroTexto"
+                                <input id="nombreUsuario" type="text" class="form-control form-control-sm custom-filter-input" placeholder="INGRESA EL NOMBRE O CORREO QUE DESEAS BUSCAR" aria-label="Aquí puedes buscar por Nombre o Correo Electronico" [(ngModel)]="filtroTexto" (keyup)="buscarCandidato($event)"
                                     style="width: 450px;" />
                                 <button class="btn btn-outline-secondary" type="button" (click)="borrarFiltro()">
                               <svg
