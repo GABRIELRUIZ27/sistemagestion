@@ -97,18 +97,21 @@ validarCriteriosContrasena(password: string) {
 
 cumpleRequisito(requisito: string): boolean {
   const passwordControl = this.formulario.get('password');
+
+  // Verificar si passwordControl es null o undefined
   if (!passwordControl) {
-      return false;
+    return false;
   }
 
   const password = passwordControl.value;
 
   if (requisito === 'mayuscula') {
-      return /[A-Z]/.test(password);
+    return /[A-Z]/.test(password);
   } else if (requisito === 'caracterEspecial') {
-      return /[$@$!%*?&]/.test(password);
+    return /[$@$!%*?&]/.test(password);
   } else if (requisito === 'minimoCaracteres') {
-      return password.length >= 8;
+    // Verificar si la propiedad 'length' es null o undefined antes de acceder a ella
+    return password != null && password.length >= 8;
   }
 
   return false;
@@ -225,7 +228,7 @@ guardarCambios(modal: any) {
       Correo: valoresFormulario.Correo,
       Estatus: this.nuevoUsuario.Estatus
     };
-
+    this.formulario.reset();
     modal.close();
   }
 }
