@@ -21,6 +21,7 @@ export class AdministradorComponent {
   filtroTexto: string = '';
   nuevoUsuarioIndex: number = -1;
   estatusSeleccionado: string = '';
+  filtroAplicado: string = '';
 
   @ViewChild('content') content: ElementRef | undefined;
 
