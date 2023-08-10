@@ -15,7 +15,7 @@
         <div class="cardd">
             <div class="cardd-body">
                 <div class="container mt-5">
-                    <button type="button" class="btn custom-add-user-btn custom-add-user-btn-icon" (click)="openModal(content)">
+                    <button type="button" class="btn custom-add-user-btn custom-add-user-btn-icon" (click)="openModal(content)" title="AGREGA UN NUEVO USUARIO">
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
                       <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
@@ -97,8 +97,8 @@
                                         <div class="mb-3">
                                             <label for="Estatus" class="col-form-label">Estatus: <span class="custom-required-field">*</span></label>
                                             <div class="d-flex align-items-center">
-                                                <button class="btn btn-success me-2" (click)="cambiarEstatus('Activo')">Activo</button>
-                                                <button class="btn btn-danger" (click)="cambiarEstatus('Inactivo')">Inactivo</button>
+                                                <button class="btn btn-success me-2" (click)="cambiarEstatus('Activo')" title="CAMBIAR ESTADO A ACTIVO">Activo</button>
+                                                <button class="btn btn-danger" (click)="cambiarEstatus('Inactivo')" title="CAMBIAR ESTADO A INACTIVO">Inactivo</button>
                                             </div>
                                         </div>
                                         <!-- Texto con el estatus seleccionado -->
@@ -141,9 +141,9 @@
                         </div>
                         <div class="col-md-6 d-flex align-items-center">
                             <div class="input-group">
-                                <input id="nombreUsuario" type="text" class="form-control form-control-sm custom-filter-input" placeholder="INGRESA EL NOMBRE O CORREO QUE DESEAS BUSCAR" aria-label="Aquí puedes buscar por Nombre o Correo Electronico" [(ngModel)]="filtroTexto" (keyup)="buscarCandidato($event)"
-                                    style="width: 450px;" />
-                                <button class="btn btn-outline-secondary" type="button" (click)="borrarFiltro()">
+                                <input id="nombreUsuario" type="text" class="form-control form-control-sm custom-filter-input" placeholder="INGRESA EL NOMBRE O CORREO QUE DESEAS BUSCAR" title="INGRESA EL NOMBRE O CORREO QUE DESEAS BUSCAR" aria-label="Aquí puedes buscar por Nombre o Correo Electronico"
+                                    [(ngModel)]="filtroTexto" (keyup)="buscarCandidato($event)" style="width: 450px;" />
+                                <button class="btn btn-outline-secondary" type="button" (click)="borrarFiltro()" title="LIMPIAR FILTRO">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
