@@ -20,6 +20,7 @@ export class AdministradorComponent {
   valorBusqueda: string = '';
   filtroTexto: string = '';
   nuevoUsuarioIndex: number = -1;
+  estatusSeleccionado: string = '';
 
   @ViewChild('content') content: ElementRef | undefined;
 
@@ -33,8 +34,6 @@ export class AdministradorComponent {
       Estatus: [''],
     });
   }
-
-  estatusSeleccionado: string = ''; // Agrega esta propiedad
 
   cambiarEstatus(nuevoEstatus: string) {
     this.nuevoUsuario.Estatus = nuevoEstatus;
@@ -86,19 +85,10 @@ toggleMostrarContrasena(): void {
 }
 passwordValue: string = '';
 
-validarCriteriosContrasena(password: string) {
-    const passwordControl = this.formulario.get('password');
-    if (passwordControl) {
-        passwordControl.setValue(password);
-
-        this.mostrarAdvertenciaContrasena = passwordControl.dirty && !passwordControl.valid;
-    }
-}
 
 cumpleRequisito(requisito: string): boolean {
   const passwordControl = this.formulario.get('password');
 
-  // Verificar si passwordControl es null o undefined
   if (!passwordControl) {
     return false;
   }
@@ -110,7 +100,6 @@ cumpleRequisito(requisito: string): boolean {
   } else if (requisito === 'caracterEspecial') {
     return /[$@$!%*?&]/.test(password);
   } else if (requisito === 'minimoCaracteres') {
-    // Verificar si la propiedad 'length' es null o undefined antes de acceder a ella
     return password != null && password.length >= 8;
   }
 
@@ -133,22 +122,6 @@ sendMessageAndClose(modal: any): void {
         this.sendMessage();
         this.closeModal(modal);
     }
-}
-
-
-agregarUsuario() {
-  if (this.formulario.valid) {
-    const nuevoUsuario = {
-      Rol: this.formulario.get('Rol')?.value,
-      nombre: this.formulario.get('nombre')?.value,
-      Correo: this.formulario.get('Correo')?.value,
-      Estatus: this.nuevoUsuario.Estatus
-    };
-
-    this.empleados.push(nuevoUsuario);
-    this.formulario.reset();
-    this.nuevoUsuario = {};
-  }
 }
 
 agregarUsuarioYCerrarModal() {
@@ -198,11 +171,6 @@ mostrarTodosLosValores() {
   this.empleados = this.todosLosEmpleados.slice(); // Copia los valores de todosLosEmpleados al arreglo empleados
 }
 
-editarUsuario(index: number) {
-  this.nuevoUsuario = { ...this.empleados[index] };
-  this.nuevoUsuarioIndex = index;
-  this.modalRef = this.modalService.open(this.content);
-}
 
 eliminarUsuario(index: number) {
   this.empleados.splice(index, 1);
