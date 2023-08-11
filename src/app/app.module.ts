@@ -11,6 +11,7 @@ import { AdministradorComponent } from './administrador/administrador.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from '../app/core/services/usuario.service';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { UsuarioService } from '../app/core/services/usuario.service';
     FooterComponent,
     InicioComponent,
     AdministradorComponent,
+    LoginComponent,
 
   ],
   imports: [
