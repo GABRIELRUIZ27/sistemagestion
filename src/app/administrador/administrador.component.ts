@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UsuarioService } from '../core/services/usuario.service';
-import { Usuario } from '../models/usuario'; // Asegúrate de que la ruta sea correcta
+import { Usuario } from '../models/usuario';
 
 @Component({
   selector: 'app-administrador',
@@ -13,7 +13,7 @@ export class AdministradorComponent implements OnInit {
   formulario!: FormGroup;
   usuarios: Usuario[] = [];
   filtroTexto: string = '';
-  nuevoUsuario: Usuario = { id: '', Rol: '', nombre: '', Correo: '', password: '', Estatus: '' }; // Nueva instancia de Usuario
+  nuevoUsuario: Usuario = { id: '', Rol: '', nombre: '', Correo: '', password: '', Estatus: '' };
   mostrarAvisoGeneral: boolean = false;
   campoContrasenaSeleccionado: boolean = false;
   mostrarContrasena: boolean = false;
@@ -30,7 +30,6 @@ export class AdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerUsuarios();
-    // Inicialización del formulario
     this.formulario = this.formBuilder.group({
       Rol: ['', Validators.required],
       nombre: ['', Validators.required],
@@ -148,7 +147,7 @@ agregarUsuarioYCerrarModal() {
     };
 
     this.empleados.push(nuevoUsuario);
-    this.todosLosEmpleados.push(nuevoUsuario); // Actualizar la lista completa de empleados
+    this.todosLosEmpleados.push(nuevoUsuario);
     this.formulario.reset();
     this.nuevoUsuario = { id: '', Rol: '', nombre: '', Correo: '', password: '', Estatus: '' };
 
@@ -164,13 +163,13 @@ agregarUsuarioYCerrarModal() {
 buscarCandidato(event: any) {
   const valor = event.target.value;
   if (valor.trim() === '') {
-    this.empleados = this.todosLosEmpleados; // Mostrar todos los empleados cuando no hay valor de búsqueda
+    this.empleados = this.todosLosEmpleados;
   } else {
     const filtro = valor.toLowerCase();
     this.empleados = this.todosLosEmpleados.filter(empleado => {
       return (
-        empleado.nombre.toLowerCase().includes(filtro) || // Filtrar por nombre
-        empleado.Correo.toLowerCase().includes(filtro) // Filtrar por correo electrónico
+        empleado.nombre.toLowerCase().includes(filtro) ||
+        empleado.Correo.toLowerCase().includes(filtro)
       );
     });
   }
@@ -178,31 +177,31 @@ buscarCandidato(event: any) {
 
 
 borrarFiltro() {
-  this.filtroTexto = ''; // Borra el contenido del filtro
-  this.mostrarTodosLosValores(); // Muestra todos los valores nuevamente
+  this.filtroTexto = '';
+  this.mostrarTodosLosValores();
 }
 
 mostrarTodosLosValores() {
-  this.empleados = this.todosLosEmpleados.slice(); // Copia los valores de todosLosEmpleados al arreglo empleados
+  this.empleados = this.todosLosEmpleados.slice();
 }
 
 
 eliminarUsuario(index: number) {
   this.empleados.splice(index, 1);
-  this.todosLosEmpleados.splice(index, 1); // Eliminar el usuario de la lista completa
+  this.todosLosEmpleados.splice(index, 1);
 }
 
 editarUsuarioModal(content: any, index: number) {
   this.nuevoUsuarioIndex = index;
-  this.nuevoUsuario = { ...this.empleados[index] }; // Copia los valores del usuario a editar
+  this.nuevoUsuario = { ...this.empleados[index] };
 
   // Cargar los valores del usuario en el formulario antes de abrir el modal
   this.formulario.setValue({
     Rol: this.nuevoUsuario.Rol,
     nombre: this.nuevoUsuario.nombre,
     Correo: this.nuevoUsuario.Correo,
-    password: '', // Aquí proporciona un valor vacío o un valor por defecto para 'password'
-    Estatus: this.nuevoUsuario.Estatus // Asegúrate de que 'Estatus' esté incluido si es necesario
+    password: '',
+    Estatus: this.nuevoUsuario.Estatus
   });
 
   this.modalRef = this.modalService.open(content);
