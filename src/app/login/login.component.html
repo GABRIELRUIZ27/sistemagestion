@@ -1,0 +1,47 @@
+<body class="d-flex flex-column">
+    <br>
+    <br>
+    <div class="custom-card">
+        <div class="card">
+            <div class="card-body">
+                <h2>BIENVENIDO AL PANEL DE ADMINISTRACIÓN</h2>
+            </div>
+        </div>
+    </div>
+    <div class="page page-center">
+        <div class="container container-tight py-4">
+            <div class="card card-md">
+                <div class="card-body">
+                    <h4 class="h2 text-center mb-4">INGRESA A TU CUENTA</h4>
+                    <form (ngSubmit)="onSubmit()" method="post" autocomplete="off" novalidate>
+                        <br>
+                        <div class="mb-3">
+                            <label class="form-label">
+                              <h4>Correo electrónico</h4>
+                            </label>
+                            <br>
+                            <input #emailInput type="email" class="form-control" placeholder="tu_email@email.com" autocomplete="off"> </div>
+                        <br>
+                        <div class="mb-2">
+                            <label class="form-label">
+                              <h4>Contraseña</h4>
+                              <span class="form-label-description">
+                              </span>
+                          </label>
+                            <br>
+                            <div class="input-group input-group-flat">
+                                <input #passwordInput type="password" class="form-control" placeholder="Ingresa tu contraseña" autocomplete="off">
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-primary w-100">INICIA SESIÓN</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

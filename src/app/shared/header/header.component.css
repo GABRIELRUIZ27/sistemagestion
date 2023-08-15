@@ -6,10 +6,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Cambiado a 'center' para centrar horizontalmente */
-    background-color: #697586;
+    background-color: #dd2490;
     padding: 20px;
     color: white;
+    font-size: 25px;
 }
 
 .logo {
@@ -17,17 +17,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Centra verticalmente */
     align-items: center;
-    /* Centra horizontalmente */
 }
-
-
-/* Resto de los estilos */
 
 .nav-links {
     text-align: center;
-    /* Centro el texto de los enlaces */
 }
 
 .vertical-nav ul {
@@ -44,4 +38,26 @@
     text-decoration: none;
     color: white;
     font-weight: bold;
+}
+
+
+/* Estilos para el botón de cerrar sesión */
+
+button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 820px;
+}
+
+button:hover {
+    background-color: #ff8000;
+}
+
+.nav-links li.active a {
+    color: #ff8000;
 }

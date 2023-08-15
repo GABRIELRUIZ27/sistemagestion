@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'https://mocki.io/v1/54034ed1-3703-4a5c-8553-60f6c5599252'; // Cambia esto a la URL de tu API
+  private apiUrl = 'http://www.conocelos.somee.com/candidatos_registro'; // Cambia esto a la URL de tu API
 
   constructor(private http: HttpClient) {}
 

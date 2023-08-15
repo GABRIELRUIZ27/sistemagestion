@@ -1,0 +1,68 @@
+@import url('https://rsms.me/inter/inter.css');
+:root {
+    --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+}
+
+body {
+    font-feature-settings: "cv03", "cv04", "cv11";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.page-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+}
+
+.card-md {
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.custom-card {
+    margin-top: 20px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0px 4px 8px rgba(147, 112, 219);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    font-weight: bold;
+    color: #9400D3;
+}
+
+h4 {
+    font-weight: bold;
+    color: #BA55D3;
+}
+
+button {
+    background-color: #9400D3;
+    border-color: black;
+}
+
+button:hover,
+button:active {
+    background-color: #BA55D3 !important;
+    border-color: black !important;
+    color: black !important;
+}
