@@ -44,7 +44,7 @@
 /* Estilos para el botón de cerrar sesión */
 
 button {
-    background-color: #f44336;
+    background-color: #9400D3;
     color: #fff;
     border: none;
     padding: 8px 16px;
@@ -55,9 +55,9 @@ button {
 }
 
 button:hover {
-    background-color: #ff8000;
+    background-color: #a74cce;
 }
 
 .nav-links li.active a {
-    color: #ff8000;
+    color: black;
 }
