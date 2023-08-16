@@ -2,10 +2,11 @@
     margin-left: 180px;
 }
 
+
+/* Estilos para la tarjeta personalizada */
+
 .custom-card {
     margin-top: 20px;
-    width: 1700px;
-    margin-left: 190px;
 }
 
 .card {
@@ -13,7 +14,9 @@
     box-shadow: 0px 4px 8px rgba(221, 36, 144, 0.6);
     border-radius: 10px;
     overflow: hidden;
-    left: 125px;
+    width: 1300px;
+    left: 120px;
+    margin-left: 180px;
 }
 
 .card-body {
@@ -22,6 +25,31 @@
     font-weight: bold;
     font-family: Arial, sans-serif;
     text-align: center;
+    color: #333;
+}
+
+
+/* Estilos card tabla */
+
+.custom-cardd {
+    margin-top: 20px;
+    width: 1300px;
+}
+
+.cardd {
+    border: none;
+    box-shadow: 0px 4px 8px rgba(221, 36, 144, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: 125px;
+    width: 1300px;
+}
+
+.cardd-body {
+    padding: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
     color: #333;
 }
 
@@ -35,4 +63,10 @@ button {
     background-color: #9400D3;
     border: none;
     color: white;
+}
+
+h1 {
+    font-weight: bold;
+    color: #dd2490;
+    font-size: 50px;
 }

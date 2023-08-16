@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from '../app/core/services/usuario.service';
 import { LoginComponent } from './login/login.component';
+import { PersonalizacionComponent } from './personalizacion/personalizacion.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LoginComponent } from './login/login.component';
     InicioComponent,
     AdministradorComponent,
     LoginComponent,
+    PersonalizacionComponent,
 
   ],
   imports: [

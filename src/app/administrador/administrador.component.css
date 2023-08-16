@@ -14,7 +14,7 @@
     box-shadow: 0px 4px 8px rgba(221, 36, 144, 0.6);
     border-radius: 10px;
     overflow: hidden;
-    width: 1700px;
+    width: 1300px;
     left: 120px
 }
 
@@ -32,6 +32,7 @@
 
 .custom-cardd {
     margin-top: 20px;
+    width: 1300px;
 }
 
 .cardd {
@@ -39,8 +40,8 @@
     box-shadow: 0px 4px 8px rgba(221, 36, 144, 0.6);
     border-radius: 10px;
     overflow: hidden;
-    width: 1700px;
     margin-left: 125px;
+    width: 1300px;
 }
 
 .cardd-body {

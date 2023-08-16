@@ -21,7 +21,7 @@
 }
 
 .nav-links {
-    text-align: center;
+    text-align: left;
 }
 
 .vertical-nav ul {
@@ -40,6 +40,16 @@
     font-weight: bold;
 }
 
+.nav-links li.highlighted::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: #9400D3;
+}
+
 
 /* Estilos para el botón de cerrar sesión */
 
@@ -51,7 +61,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 820px;
+    margin-top: 550px;
 }
 
 button:hover {
