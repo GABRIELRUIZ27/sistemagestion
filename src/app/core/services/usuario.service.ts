@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../models/usuario';
 import { Observable } from 'rxjs';
 
@@ -7,27 +7,39 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://www.conocelos.somee.com/candidatos_registro'; // Cambia esto a la URL de tu API
+  private apiUrl = 'http://www.conocelos.somee.com/candidatos_registro';
 
   constructor(private http: HttpClient) {}
 
   obtenerUsuarios(): Observable<Usuario[]> {
     const url = `${this.apiUrl}/candidatos_registro`;
-    return this.http.get<Usuario[]>(url); // Realiza la llamada GET para obtener la lista de usuarios
+    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
+    return this.http.get<Usuario[]>(url, { headers });
   }
 
   agregarUsuario(nuevoUsuario: Usuario) {
     const url = `${this.apiUrl}/candidatos_registro`;
-    return this.http.post(url, nuevoUsuario); // Realiza la llamada POST para agregar el usuario
+    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
+    return this.http.post(url, nuevoUsuario, { headers });
   }
 
   editarUsuario(index: number, valoresFormulario: any) {
     const url = `${this.apiUrl}/candidatos_registro/${index}`;
-    return this.http.put(url, valoresFormulario); // Realiza la llamada PUT para editar el usuario
+    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
+    return this.http.put(url, valoresFormulario, { headers });
   }
 
   eliminarUsuario(id: string) {
     const url = `${this.apiUrl}/candidatos_registro/${id}`;
-    return this.http.delete(url); // Realiza la llamada DELETE para eliminar el usuario
+    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
+    return this.http.delete(url, { headers });
+  }
+
+  private getHeaders(): HttpHeaders {
+    const credentials = 'admin:123';
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(credentials)
+    });
+    return headers;
   }
 }

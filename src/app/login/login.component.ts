@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +11,15 @@ export class LoginComponent {
   @ViewChild('emailInput') emailInput!: ElementRef<HTMLInputElement>;
   @ViewChild('passwordInput') passwordInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   onSubmit() {
-    const email = 'usuario@example.com';
-    const password = 'contraseña';
-
     const enteredEmail = this.emailInput.nativeElement.value;
     const enteredPassword = this.passwordInput.nativeElement.value;
 
-    if (enteredEmail === email && enteredPassword === password) {
+    // Comprueba las credenciales
+    if (enteredEmail === 'admin' && enteredPassword === '123') {
+      // Realiza la redirección
       this.router.navigate(['/inicio']);
     } else {
       alert('Credenciales inválidas');
