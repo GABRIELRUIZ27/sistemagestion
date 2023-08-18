@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from '../app/core/services/usuario.service';
 import { LoginComponent } from './login/login.component';
 import { PersonalizacionComponent } from './personalizacion/personalizacion.component';
+import { HttpInterceptorModule } from './core/services/http-interceptor.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { PersonalizacionComponent } from './personalizacion/personalizacion.comp
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpInterceptorModule
   ],
   providers: [UsuarioService],
   bootstrap: [AppComponent]

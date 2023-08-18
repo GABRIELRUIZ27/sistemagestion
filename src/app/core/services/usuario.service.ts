@@ -2,44 +2,37 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../models/usuario';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://www.conocelos.somee.com/candidatos_registro';
+  private apiUrl = 'http://www.conocelos.somee.com/usuarios_registro';
 
   constructor(private http: HttpClient) {}
 
-  obtenerUsuarios(): Observable<Usuario[]> {
-    const url = `${this.apiUrl}/candidatos_registro`;
-    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
-    return this.http.get<Usuario[]>(url, { headers });
+  obtenerUsuarios(token: string): Observable<Usuario[]> {
+    const headers = this.getHeaders(token);
+    return this.http.get<Usuario[]>(this.apiUrl, { headers })
+      .pipe(map((response: any) => response.response));
   }
-
   agregarUsuario(nuevoUsuario: Usuario) {
-    const url = `${this.apiUrl}/candidatos_registro`;
-    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
-    return this.http.post(url, nuevoUsuario, { headers });
+    return this.http.post(this.apiUrl, nuevoUsuario);
   }
 
-  editarUsuario(index: number, valoresFormulario: any) {
-    const url = `${this.apiUrl}/candidatos_registro/${index}`;
-    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
-    return this.http.put(url, valoresFormulario, { headers });
+  editarUsuario(id: string, valoresFormulario: any) {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put(url, valoresFormulario);
   }
 
   eliminarUsuario(id: string) {
-    const url = `${this.apiUrl}/candidatos_registro/${id}`;
-    const headers = this.getHeaders(); // Obtener las cabeceras con las credenciales
-    return this.http.delete(url, { headers });
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete(url);
   }
-
-  private getHeaders(): HttpHeaders {
-    const credentials = 'admin:123';
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa(credentials)
+  private getHeaders(token: string): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    return headers;
   }
 }

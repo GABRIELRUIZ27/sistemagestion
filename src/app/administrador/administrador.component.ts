@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UsuarioService } from '../core/services/usuario.service';
 import { Usuario } from '../models/usuario';
@@ -13,7 +13,7 @@ export class AdministradorComponent implements OnInit {
   formulario!: FormGroup;
   usuarios: Usuario[] = [];
   filtroTexto: string = '';
-  nuevoUsuario: Usuario = { id: '', Rol: '', nombre: '', Correo: '', password: '', Estatus: '' };
+  nuevoUsuario: Usuario = {rolId: 0, email: '', passwordUser: '', statusUser: true};
   mostrarAvisoGeneral: boolean = false;
   campoContrasenaSeleccionado: boolean = false;
   mostrarContrasena: boolean = false;
@@ -29,37 +29,31 @@ export class AdministradorComponent implements OnInit {
   constructor(private modalService: NgbModal, private usuarioService: UsuarioService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.obtenerUsuarios();
-    this.formulario = this.formBuilder.group({
-      Rol: ['', Validators.required],
-      nombre: ['', Validators.required],
-      Correo: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      Estatus: ['', Validators.required]
-    });
+    this.obtenerUsuariosConToken();
   }
 
-  obtenerUsuarios() {
-    this.usuarioService.obtenerUsuarios().subscribe({
-      next: (usuarios: Usuario[]) => {
-        this.usuarios = usuarios;
-      },
-      error: (error) => {
-        console.error('Error al obtener la lista de usuarios:', error);
-      }
-    });
+  obtenerUsuariosConToken() {
+    const token = localStorage.getItem('bearerToken');
+    if (token) {
+      this.usuarioService.obtenerUsuarios(token).subscribe({
+        next: (usuarios: Usuario[]) => {
+          this.usuarios = usuarios;
+        },
+        error: (error) => {
+          console.error('Error al obtener la lista de usuarios:', error);
+        }
+      });
+    }
   }
 
-
-  cambiarEstatus(nuevoEstatus: string) {
-    this.nuevoUsuario.Estatus = nuevoEstatus;
-    console.log("Estatus actualizado:", this.nuevoUsuario.Estatus);
+  cambiarEstatus(nuevoEstatus: boolean) {
+    this.nuevoUsuario.statusUser = nuevoEstatus;
+    console.log("Estatus actualizado:", this.nuevoUsuario.statusUser);
   }
 
   openModal(content: any): void {
     this.modalRef = this.modalService.open(content);
   }
-
 
   closeModal(modal: any): void {
     modal.dismiss();
@@ -80,26 +74,23 @@ export class AdministradorComponent implements OnInit {
     }
   }
 
-  mostrarMensajeAdvertencia() {
-    this.mostrarAdvertenciaContrasena = true;
-  }
+mostrarMensajeAdvertencia() {
+  this.mostrarAdvertenciaContrasena = true;
+}
 
-  ocultarMensajeAdvertencia() {
-    this.mostrarAdvertenciaContrasena = false;
-  }
+ocultarMensajeAdvertencia() {
+  this.mostrarAdvertenciaContrasena = false;
+}
 
-  limpiarFormulario(): void {
-    this.formulario.reset();
-    this.formulario.get('Rol')?.setValue(null);
-    this.mostrarAdvertenciaContrasena = false;
-  }
-
+limpiarFormulario(): void {
+  this.formulario.reset();
+  this.formulario.get('Rol')?.setValue(null);
+  this.mostrarAdvertenciaContrasena = false;
+}
 
 toggleMostrarContrasena(): void {
-    this.mostrarContrasena = !this.mostrarContrasena;
+  this.mostrarContrasena = !this.mostrarContrasena;
 }
-passwordValue: string = '';
-
 
 cumpleRequisito(requisito: string): boolean {
   const passwordControl = this.formulario.get('password');
@@ -122,42 +113,49 @@ cumpleRequisito(requisito: string): boolean {
 }
 
 validarFormulario() {
-    this.mostrarAvisoGeneral = false;
+  this.mostrarAvisoGeneral = false;
 
-    if (this.formulario.invalid) {
-        this.mostrarAvisoGeneral = true;
-    }
+  if (this.formulario.invalid) {
+      this.mostrarAvisoGeneral = true;
+  }
 }
 
 sendMessageAndClose(modal: any): void {
-    this.validarFormulario();
-    if (!this.mostrarAvisoGeneral) {
-        this.sendMessage();
-        this.closeModal(modal);
-    }
+  this.validarFormulario();
+  if (!this.mostrarAvisoGeneral) {
+      this.sendMessage();
+      this.closeModal(modal);
+  }
 }
 
 agregarUsuarioYCerrarModal() {
   if (this.formulario.valid) {
     const nuevoUsuario = {
-      Rol: this.formulario.get('Rol')?.value,
-      nombre: this.formulario.get('nombre')?.value,
-      Correo: this.formulario.get('Correo')?.value,
-      Estatus: this.nuevoUsuario.Estatus
+      rolId: this.formulario.get('Rol')?.value,
+      email: this.formulario.get('nombre')?.value,
+      passwordUser: this.formulario.get('Correo')?.value,
+      statusUser: this.nuevoUsuario.statusUser
     };
 
-    this.empleados.push(nuevoUsuario);
-    this.todosLosEmpleados.push(nuevoUsuario);
-    this.formulario.reset();
-    this.nuevoUsuario = { id: '', Rol: '', nombre: '', Correo: '', password: '', Estatus: '' };
+    this.usuarioService.agregarUsuario(nuevoUsuario).subscribe(
+      (respuesta) => {
+        // Manejar la respuesta en caso de éxito
+        console.log('Usuario agregado exitosamente:', respuesta);
 
-    if (this.modalRef) {
-      this.modalRef.close();
-    }
+        // Limpiar el formulario y cerrar el modal
+        this.formulario.reset();
+        this.modalRef?.close();
+      },
+      (error) => {
+        // Manejar el error
+        console.error('Error al agregar el usuario:', error);
+      }
+    );
   } else {
     this.mostrarAvisoGeneral = true;
   }
 }
+
 
 
 buscarCandidato(event: any) {
@@ -168,13 +166,11 @@ buscarCandidato(event: any) {
     const filtro = valor.toLowerCase();
     this.empleados = this.todosLosEmpleados.filter(empleado => {
       return (
-        empleado.nombre.toLowerCase().includes(filtro) ||
-        empleado.Correo.toLowerCase().includes(filtro)
+        empleado.email.toLowerCase().includes(filtro)
       );
     });
   }
 }
-
 
 borrarFiltro() {
   this.filtroTexto = '';
@@ -184,7 +180,6 @@ borrarFiltro() {
 mostrarTodosLosValores() {
   this.empleados = this.todosLosEmpleados.slice();
 }
-
 
 eliminarUsuario(index: number) {
   this.empleados.splice(index, 1);
@@ -197,11 +192,11 @@ editarUsuarioModal(content: any, index: number) {
 
   // Cargar los valores del usuario en el formulario antes de abrir el modal
   this.formulario.setValue({
-    Rol: this.nuevoUsuario.Rol,
-    nombre: this.nuevoUsuario.nombre,
-    Correo: this.nuevoUsuario.Correo,
+    Rol: this.nuevoUsuario.rolId,
+    nombre: this.nuevoUsuario.email,
+    Correo: this.nuevoUsuario.passwordUser,
     password: '',
-    Estatus: this.nuevoUsuario.Estatus
+    Estatus: this.nuevoUsuario.statusUser
   });
 
   this.modalRef = this.modalService.open(content);
@@ -214,13 +209,15 @@ guardarCambios(modal: any) {
     // Actualiza los valores del usuario en el arreglo empleados
     this.empleados[this.nuevoUsuarioIndex] = {
       ...this.empleados[this.nuevoUsuarioIndex],
-      Rol: valoresFormulario.Rol,
-      nombre: valoresFormulario.nombre,
-      Correo: valoresFormulario.Correo,
-      Estatus: this.nuevoUsuario.Estatus
+      rolId: valoresFormulario.Rol,
+      email: valoresFormulario.nombre,
+      passwordUser: valoresFormulario.Correo,
+      statusUser: this.nuevoUsuario.statusUser
     };
     this.formulario.reset();
     modal.close();
   }
 }
 }
+
+

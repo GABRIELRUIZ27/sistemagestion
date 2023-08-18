@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +19,27 @@ export class LoginComponent {
     const enteredEmail = this.emailInput.nativeElement.value;
     const enteredPassword = this.passwordInput.nativeElement.value;
 
-    // Comprueba las credenciales
-    if (enteredEmail === 'admin' && enteredPassword === '123') {
-      // Realiza la redirección
-      this.router.navigate(['/inicio']);
-    } else {
-      alert('Credenciales inválidas');
-    }
+    const apiUrl = 'http://www.conocelos.somee.com/api/UsuarioVerificar/Autenticar';
+
+    // Realiza una solicitud POST para autenticar al usuario
+    const body = {
+      nombreUsuario: enteredEmail,
+      clave: enteredPassword
+    };
+
+    this.http.post(apiUrl, body)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          return throwError('Credenciales inválidas');
+        })
+      )
+      .subscribe((data: any) => {
+        // Autenticación exitosa: guardar el token y redirigir
+        const token = data.token;
+        localStorage.setItem('bearerToken', token);
+        console.log('Token:', token); // Imprimir el token en la consola
+        this.router.navigate(['/inicio']);
+      });
   }
 }
