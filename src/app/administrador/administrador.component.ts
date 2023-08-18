@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UsuarioService } from '../core/services/usuario.service';
 import { Usuario } from '../models/usuario';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-administrador',
@@ -13,7 +14,11 @@ export class AdministradorComponent implements OnInit {
   formulario!: FormGroup;
   usuarios: Usuario[] = [];
   filtroTexto: string = '';
-  nuevoUsuario: Usuario = {rolId: 0, email: '', passwordUser: '', statusUser: true};
+  nuevoUsuario: Usuario = {
+    rolId: 0, email: '', passwordUser: '', statusUser: true,
+    isAuthenticated: false,
+    bearerToken: ''
+  };
   mostrarAvisoGeneral: boolean = false;
   campoContrasenaSeleccionado: boolean = false;
   mostrarContrasena: boolean = false;
@@ -26,7 +31,15 @@ export class AdministradorComponent implements OnInit {
   estatusSeleccionado: string = '';
   filtroAplicado: string = '';
 
-  constructor(private modalService: NgbModal, private usuarioService: UsuarioService, private formBuilder: FormBuilder) {}
+  constructor(private modalService: NgbModal, private usuarioService: UsuarioService, private formBuilder: FormBuilder, private http: HttpClient) {
+    this.formulario = this.formBuilder.group({
+      Rol: [null, Validators.required],
+      nombre: ['', Validators.required],
+      Correo: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      Estatus: [true]
+    });
+  }
 
   ngOnInit(): void {
     this.obtenerUsuariosConToken();
@@ -134,10 +147,19 @@ agregarUsuarioYCerrarModal() {
       rolId: this.formulario.get('Rol')?.value,
       email: this.formulario.get('nombre')?.value,
       passwordUser: this.formulario.get('Correo')?.value,
-      statusUser: this.nuevoUsuario.statusUser
+      statusUser: this.nuevoUsuario.statusUser,
+      isAuthenticated: true,
+      bearerToken: ''
     };
 
-    this.usuarioService.agregarUsuario(nuevoUsuario).subscribe(
+    const token = localStorage.getItem('bearerToken');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+
+    this.http.post('http://www.conocelos.somee.com/usuarios_registro', nuevoUsuario, { headers }).subscribe(
       (respuesta) => {
         // Manejar la respuesta en caso de éxito
         console.log('Usuario agregado exitosamente:', respuesta);
@@ -155,6 +177,7 @@ agregarUsuarioYCerrarModal() {
     this.mostrarAvisoGeneral = true;
   }
 }
+
 
 
 
@@ -181,9 +204,10 @@ mostrarTodosLosValores() {
   this.empleados = this.todosLosEmpleados.slice();
 }
 
-eliminarUsuario(index: number) {
-  this.empleados.splice(index, 1);
-  this.todosLosEmpleados.splice(index, 1);
+eliminarUsuario(id: number) {
+  this.usuarioService.eliminarUsuario(id).subscribe(() => {
+    this.obtenerUsuariosConToken();
+  });
 }
 
 editarUsuarioModal(content: any, index: number) {

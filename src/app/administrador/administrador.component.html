@@ -18,7 +18,7 @@
         <div class="cardd">
             <div class="cardd-body">
                 <div class="container mt-5">
-                    <button type="button" class="btn custom-add-user-btn custom-add-user-btn-icon" (click)="openModal(content)" title="AGREGA UN NUEVO USUARIO">
+                    <button type="button" class="btn custom-add-user-btn custom-add-user-btn-icon" (click)="openModal(agregarUsuarioModal)" title="AGREGA UN NUEVO USUARIO">
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
                       <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
@@ -28,113 +28,50 @@
                   AGREGAR USUARIO
                 </button>
 
-                    <ng-template #content let-modal>
-                        <div class="modal custom-modal">
-                            <div class="modal-content custom-modal-content">
-                                <div class="modal-header custom-modal-header">
-                                    <h1 class="modal-title fs-5 custom-modal-title" id="exampleModalLabel">Nuevo usuario</h1>
+                    <!-- Modal para agregar usuarios -->
+                    <ng-template #agregarUsuarioModal let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Agregar Nuevo Usuario</h4>
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Agregar un formulario para agregar usuarios -->
+                            <form [formGroup]="formulario" (ngSubmit)="agregarUsuarioYCerrarModal()">
+                                <div class="mb-3">
+                                    <label for="rolId">Rol:</label>
+                                    <select id="rolId" formControlName="Rol" class="form-control" required>
+                                    <!-- Opciones para el rol -->
+                                    <option value="1">Rol 1</option>
+                                    <option value="2">Rol 2</option>
+                                    <!-- Agregar más opciones si es necesario -->
+                                    </select>
                                 </div>
-                                <div class="modal-body custom-modal-body" style="padding-right: 35px;">
-                                    <!-- Aviso de campo faltante o incorrecto -->
-                                    <div *ngIf="mostrarAvisoGeneral" class="custom-invalid-feedback">
-                                        Por favor, complete todos los campos obligatorios y corrija los errores.
-                                    </div>
-
-                                    <form [formGroup]="formulario">
-                                        <!-- Campo de rol -->
-                                        <div class="mb-3">
-                                            <label for="Rol" class="col-form-label">Rol: <span class="custom-required-field">*</span></label>
-                                            <select class="form-select custom-form-control" id="Rol" formControlName="Rol" style="width: 645px;">
-                                              <option value="usuario">Usuario</option>
-                                              <option value="candidato">Candidato</option>
-                                              <option value="administrador">Administrador</option>
-                                            </select>
-                                        </div>
-                                        <br>
-                                        <!-- Campo del nombre -->
-                                        <div class="mb-3">
-                                            <label for="nombre" class="col-form-label">Nombre: <span class="custom-required-field">*</span></label>
-                                            <input type="text" class="form-control custom-form-control" id="nombre" formControlName="nombre">
-                                        </div>
-
-                                        <br>
-                                        <!-- Campo de correo electrónico -->
-                                        <div class="mb-3">
-                                            <label for="Correo" class="col-form-label">Correo: <span class="custom-required-field">*</span></label>
-                                            <input type="Correo" class="form-control custom-form-control" id="Correo" formControlName="Correo">
-                                            <!-- Mensaje para correo electrónico válido -->
-                                            <div *ngIf="formulario.get('Correo')?.valid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-valid-feedback">
-                                                Correo electrónico válido.
-                                            </div>
-
-                                            <!-- Mensaje para correo electrónico inválido -->
-                                            <div *ngIf="formulario.get('Correo')?.invalid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-invalid-feedback">
-                                                Correo electrónico inválido.
-                                            </div>
-
-                                        </div>
-                                        <br>
-                                        <!-- Campo de contraseña -->
-                                        <div class="mb-3">
-                                            <label for="password" class="col-form-label" (click)="mostrarMensajeAdvertencia()">Contraseña: <span class="custom-required-field">*</span></label>
-                                            <div class="input-group">
-                                                <input type="{{ mostrarContrasena ? 'text' : 'password' }}" class="form-control custom-form-control" id="password" formControlName="password" (focus)="campoContrasenaSeleccionado = true" (blur)="campoContrasenaSeleccionado = false">
-                                            </div>
-                                        </div>
-
-                                        <!-- Mensaje de los criterios de la contraseña -->
-                                        <div *ngIf="campoContrasenaSeleccionado" class="custom-password-criteria">
-                                            <ul>
-                                                <li [ngClass]="{'valid-password': cumpleRequisito('mayuscula'), 'invalid-password': !cumpleRequisito('mayuscula')}">
-                                                    La contraseña debe contener al menos una mayúscula.
-                                                </li>
-                                                <li [ngClass]="{'valid-password': cumpleRequisito('caracterEspecial'), 'invalid-password': !cumpleRequisito('caracterEspecial')}">
-                                                    Debe incluir al menos un carácter especial.
-                                                </li>
-                                                <li [ngClass]="{'valid-password': cumpleRequisito('minimoCaracteres'), 'invalid-password': !cumpleRequisito('minimoCaracteres')}">
-                                                    Debe tener un mínimo de ocho caracteres.
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <!-- Campo de estatus -->
-                                        <div class="mb-3">
-                                            <label for="Estatus" class="col-form-label">Estatus: <span class="custom-required-field">*</span></label>
-                                            <div class="d-flex align-items-center">
-                                                <button class="btn btn-success me-2" (click)="cambiarEstatus(true)">Activo</button>
-                                                <button class="btn btn-danger" (click)="cambiarEstatus(false)">Inactivo</button>
-                                            </div>
-                                        </div>
-                                        <!-- Texto con el estatus seleccionado -->
-                                        <div *ngIf="nuevoUsuario.statusUser" class="mt-2">
-                                            <span [ngClass]="{'text-success': nuevoUsuario.statusUser, 'text-danger': !nuevoUsuario.statusUser}">
-                                            Estatus seleccionado: {{ nuevoUsuario.statusUser }}
-                                            </span>
-                                        </div>
-                                    </form>
+                                <div class="mb-3">
+                                    <label for="nombre">Email:</label>
+                                    <input id="nombre" type="text" formControlName="nombre" class="form-control" required>
                                 </div>
-
-                                <div class="modal-footer custom-modal-footer">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <!-- Mensaje de campos obligatorios -->
-                                                <div class="custom-required-message">* Campos obligatorios</div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <!-- Botón de Cerrar -->
-                                                <button type="button" class="btn custom-btn-secondary" (click)="modal.dismiss()">Cerrar</button>
-                                                <!-- Botón para limpiar información -->
-                                                <button type="button" class="btn custom-btn-limpiar" (click)="limpiarFormulario()">Limpiar</button>
-                                                <!-- Botón de Agregar Usuario -->
-                                                <button type="button" class="btn custom-btn-primary" (click)="agregarUsuarioYCerrarModal()">Agregar usuario</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="correo">Nombre:</label>
+                                    <input id="correo" type="email" formControlName="Correo" class="form-control" required>
                                 </div>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="password">Contraseña:</label>
+                                    <input id="password" type="password" formControlName="password" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="estatus">Estatus:</label>
+                                    <input id="estatus" type="checkbox" formControlName="Estatus">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cerrar</button>
+                            <button type="button" class="btn btn-primary" (click)="agregarUsuarioYCerrarModal()">Agregar Usuario</button>
                         </div>
                     </ng-template>
+
 
                     <br>
                     <div class="row">
@@ -164,9 +101,7 @@
                               </svg>
                             </button>
                             </div>
-
                         </div>
-
                     </div>
                     <br>
                     <!-- Tabla de empleados -->
@@ -174,7 +109,6 @@
                         <thead>
                             <tr>
                                 <th>Rol</th>
-                                <th>Nombre</th>
                                 <th>Correo</th>
                                 <th>Estatus</th>
                                 <th>Acciones</th>
@@ -199,11 +133,8 @@
                                   </svg>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
@@ -219,7 +150,6 @@
                         <div *ngIf="mostrarAvisoGeneral" class="custom-invalid-feedback">
                             Por favor, complete todos los campos obligatorios y corrija los errores.
                         </div>
-
                         <form [formGroup]="formulario">
                             <!-- Campo de rol -->
                             <div class="mb-3">
@@ -236,7 +166,6 @@
                                 <label for="nombre" class="col-form-label">Nombre: <span class="custom-required-field">*</span></label>
                                 <input type="text" class="form-control custom-form-control" id="nombre" formControlName="nombre">
                             </div>
-
                             <br>
                             <!-- Campo de correo electrónico -->
                             <div class="mb-3">
@@ -246,12 +175,10 @@
                                 <div *ngIf="formulario.get('email')?.valid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-valid-feedback">
                                     Correo electrónico válido.
                                 </div>
-
                                 <!-- Mensaje para correo electrónico inválido -->
                                 <div *ngIf="formulario.get('Correo')?.invalid && (formulario.get('Correo')?.dirty || formulario.get('Correo')?.touched)" class="custom-invalid-feedback">
                                     Correo electrónico inválido.
                                 </div>
-
                             </div>
                             <br>
                             <!-- Campo de contraseña -->
@@ -261,7 +188,6 @@
                                     <input type="{{ mostrarContrasena ? 'text' : 'password' }}" class="form-control custom-form-control" id="password" formControlName="password" (focus)="campoContrasenaSeleccionado = true" (blur)="campoContrasenaSeleccionado = false">
                                 </div>
                             </div>
-
                             <!-- Mensaje de los criterios de la contraseña -->
                             <div *ngIf="campoContrasenaSeleccionado" class="custom-password-criteria">
                                 <ul>

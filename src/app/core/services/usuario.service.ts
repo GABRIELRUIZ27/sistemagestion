@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../models/usuario';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -26,10 +26,16 @@ export class UsuarioService {
     return this.http.put(url, valoresFormulario);
   }
 
-  eliminarUsuario(id: string) {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url);
-  }
+    eliminarUsuario(id: number) {
+      const token = localStorage.getItem('bearerToken');
+      if (token) {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.delete(`${this.apiUrl}/${id}`, { headers });
+      } else {
+        // Manejo de caso en que el token no está presente
+        return throwError('Token no encontrado');
+      }
+    }
   private getHeaders(token: string): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`

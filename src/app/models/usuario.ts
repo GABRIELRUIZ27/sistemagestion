@@ -3,4 +3,6 @@ export interface Usuario {
   email: string;
   passwordUser: string;
   statusUser: boolean;
+  isAuthenticated: boolean;
+  bearerToken: string;
 }
